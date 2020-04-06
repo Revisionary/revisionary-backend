@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="12px" viewBox="0 0 11 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>edits-switch-off</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Inspect-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-290.000000, -201.000000)">
+        <g id="Site">
+            <g id="PIN-WINDOW-COMPONENTS" transform="translate(82.000000, 141.000000)">
+                <g id="Content-Section" transform="translate(15.000000, 54.750000)">
+                    <g id="Edits-Switcher" transform="translate(194.000000, 5.000000)">
+                        <g id="Show-Original">
+                            <g id="edits-switch-off" transform="translate(0.000000, 1.000000)">
+                                <polygon id="Edits-Switch-Icon" fill="#000000" points="0.991453497 0.981714831 7.02647204 0.981714831 4.7263806 5.03994447 7.02647204 5.03994447 3.47302066 11.0430051 3.47302066 5.98280609 0.991453497 5.98280609"></polygon>
+                                <path d="M0,1.00981889 L8.05381988,9.76139759" id="Line" stroke="#000000" stroke-linecap="square"></path>
+                                <path d="M0,0 L8.65726294,9.2771477" id="Line-Copy-3" stroke="#FFFFFF" stroke-linecap="square"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

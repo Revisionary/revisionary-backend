@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Web-Project" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Login-Page" transform="translate(-575.000000, -505.000000)" fill="#000000">
+            <g id="Content" transform="translate(150.000000, 173.000000)">
+                <g id="Login" transform="translate(0.000000, 140.000000)">
+                    <g id="Login-Button" transform="translate(288.000000, 144.000000)">
+                        <g id="Normal">
+                            <polygon id="Rectangle" points="153 63 167 48 167 78 137 78"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

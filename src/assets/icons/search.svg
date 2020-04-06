@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="68px" viewBox="0 0 66 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Web-Project" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Main-Page" transform="translate(-976.000000, -404.000000)">
+            <g id="Main">
+                <g id="Website-URL-Enter" transform="translate(400.000000, 398.000000)">
+                    <g id="Search-Icon" transform="translate(580.000000, 10.000000)">
+                        <g id="icon-search">
+                            <g>
+                                <g id="Group" transform="translate(46.678948, 46.129237) rotate(-45.000000) translate(-46.678948, -46.129237) translate(42.178948, 31.129237)">
+                                    <path d="M2.74086379,9.63680492 L2.74086379,29.5021595" id="Line" stroke="#000000" stroke-width="8" stroke-linecap="square"></path>
+                                    <polygon id="Triangle" fill="#000000" points="2.74086379 -2.34479103e-13 5.48172757 5.48172757 -3.1485925e-13 5.48172757"></polygon>
+                                </g>
+                                <circle id="Oval" stroke="#000000" stroke-width="8" cx="20.5564784" cy="20.5564784" r="20.5564784"></circle>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
