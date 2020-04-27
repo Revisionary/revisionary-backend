@@ -1,7 +1,7 @@
 {
     "require": {
         "jeremykendall/php-domain-parser": "5.5.0",
-        "thingengineer/mysqli-database-class": "2.9.3",
+        "thingengineer/mysqli-database-class": "dev-master",
         "cocur/background-process": "0.7",
         "katzgrau/klogger": "1.2.1",
         "drewm/mailchimp-api": "2.5",
