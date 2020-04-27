@@ -12,8 +12,8 @@ unset($user_levels[0]);
 // Current user info
 $current_user_info = getUserInfo();
 $current_user_info_DB = getUserInfoDB();
-$current_user_level_name = $current_user_info['userLevelName'];
-$trial_user_level_name = $current_user_info['trialAvailable'] ? $current_user_info_DB['trial_user_level_name'] : "";
+$current_user_level_name = @$current_user_info['userLevelName'];
+$trial_user_level_name = @$current_user_info['trialAvailable'] ? @$current_user_info_DB['trial_user_level_name'] : "";
 
 
 $isExceed = false;
