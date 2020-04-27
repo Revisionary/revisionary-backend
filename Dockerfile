@@ -36,12 +36,6 @@ RUN composer install \
 #
 FROM php:fpm
 
-# Add the files
-ADD ./src /backend
-
-# Add composer files
-COPY --from=vendor /app/vendor/ /backend
-
 # Rewrite the PHP-FPM configurations
 COPY ./config/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
@@ -53,6 +47,12 @@ RUN apt-get -y update \
     && docker-php-ext-install intl mysqli gd \
     && pecl install memcached-3.1.3 \
     && docker-php-ext-enable memcached
+
+# Add the files
+ADD ./src /backend
+
+# Add composer files
+COPY --from=vendor /app/vendor/ /backend
 
 # # Expose the ports
 # EXPOSE 80 443
