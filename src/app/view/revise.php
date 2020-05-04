@@ -8,7 +8,7 @@
 	user_email = '<?=$User->getInfo('user_email')?>';
 	user_picture = '<?=$User->getInfo('user_picture')?>';
 	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;
-	user_level_ID = <?=getUserInfo()['trialActive'] ? getUserInfoDB()['trial_user_level_ID'] : $User->getInfo('user_level_ID')?>;
+	user_level_ID = <?=getUserInfo()['trialActive'] ? $UserInfo['trial_user_level_ID'] : $UserInfo['user_level_ID']?>;
 	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;
 	project_ID = <?=$project_ID?>;
 	page_ID = <?=$page_ID?>;
@@ -87,7 +87,7 @@
 
 
 
-<div id="page" class="site" data-user-level-id="<?=getUserInfo()['trialActive'] ? getUserInfoDB()['trial_user_level_ID'] : $User->getInfo('user_level_ID')?>">
+<div id="page" class="site" data-user-level-id="<?=getUserInfo()['trialActive'] ? $UserInfo['trial_user_level_ID'] : $UserInfo['user_level_ID']?>">
 
 
 	<div class="iframe-container" style="width: <?=$width?>px; height: <?=$height?>px;">

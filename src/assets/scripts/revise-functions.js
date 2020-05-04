@@ -1937,6 +1937,10 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		endProcess(newPinProcessID);
 
 
+	}).fail(function(fail) {
+
+		console.error('FAILED: ', fail);
+
 	});
 
 

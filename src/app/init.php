@@ -36,6 +36,7 @@ $db = new MysqliDb(array(
 	'password' 	=> $config['db']['pass'],
 	'db'		=> $config['db']['name'],
 	'port'		=> $config['db']['port'],
+	'socket'	=> $config['db']['socket'],
 	'prefix' 	=> '',
 	'charset' 	=> 'utf8mb4'
 ));
@@ -51,12 +52,13 @@ load_session();
 
 // Debug Mode
 $debug_mode = $config['env']['debug'] == "TRUE";
-$debug_mode = false;
+//$debug_mode = false;
 if ($debug_mode) $db->setTrace(true);
 
 
 // If logged in and user not found
 $User = User::ID();
+$UserInfo = $User ? $User->getInfo() : [];
 if ( userLoggedIn() && !$User ) {
 
 
@@ -79,7 +81,7 @@ if ($User) {
 
 
 	// Hard user change for admins
-	if ( $User->getInfo('user_level_ID') === 1 && is_numeric(get('login_to')) ) {
+	if ( $UserInfo['user_level_ID'] === 1 && is_numeric(get('login_to')) ) {
 		$_SESSION['user_ID'] = intval(get('login_to'));
 		header('Location: '.removeQueryArg("login_to", current_url()));
 		die();

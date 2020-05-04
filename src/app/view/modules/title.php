@@ -198,7 +198,7 @@
 
 	<div class="col xl-3-12 xl-right">
 
-		<?php require view('modules/limitations'); ?>
+		<?php //require view('modules/limitations'); ?>
 
 	</div>
 </div>

@@ -18,29 +18,33 @@ class Pin {
 
 	public function __construct() {
 
-		$this->phase_ID = self::$pinInfo['phase_ID'];
-		$this->phaseData = Phase::ID( $this->phase_ID );
-		if (!$this->phaseData) {
-			return false;
-		}
-		$this->page_ID = $this->phaseData->getInfo('page_ID');
-		$this->device_ID = self::$pinInfo['device_ID'];
+		if (self::$pinInfo) {
 
-    }
+			$this->phase_ID = self::$pinInfo['phase_ID'];
+			$this->phaseData = Phase::ID( $this->phase_ID );
+			if (!$this->phaseData) {
+				return false;
+			}
+			$this->page_ID = $this->phaseData->getInfo('page_ID');
+			$this->device_ID = self::$pinInfo['device_ID'];
+
+		}
+
+	}
 
 
 
 	// ID Setter
-    public static function ID($pin_ID = null) {
-	    global $db;
+	public static function ID($pin_ID = null) {
+		global $db;
 
 
-	    // Set the pin ID
+		// Set the pin ID
 		if (is_int($pin_ID) || is_numeric($pin_ID)) {
 
 
 			// Bring the user level info
-		    $db->where("pin_ID", $pin_ID);
+			$db->where("pin_ID", $pin_ID);
 			$pinInfo = $db->getOne("pins");
 
 			if ( $pinInfo ) {
@@ -55,7 +59,7 @@ class Pin {
 		}
 
 
-	    // For the new pin
+		// For the new pin
 		if ($pin_ID = null || $pin_ID == "new") {
 
 			self::$pin_ID = "new";
@@ -65,18 +69,18 @@ class Pin {
 
 		return false;
 
-    }
+	}
 
 
 
 	// GETTERS:
 
-    // Get pin info
-    public function getInfo($column = null) {
+	// Get pin info
+	public function getInfo($column = null) {
 
 		return $column == null ? self::$pinInfo : self::$pinInfo[$column];
 
-    }
+	}
 
 
 	// Get page users
@@ -95,23 +99,23 @@ class Pin {
 
 
 
-    // ACTIONS
+	// ACTIONS
 
-    // Add a new pin
-    public function addNew(
-	    int $pin_phase_ID,
-    	string $pin_type = 'style',
-    	bool $pin_private = false,
-    	float $pin_x = 50,
-    	float $pin_y = 50,
-    	int $pin_element_index = null,
-	    string $pin_modification_type = null,
-	    int $pin_device_ID = null
-    ) {
-	    global $db, $log, $cache;
+	// Add a new pin
+	public function addNew(
+		int $pin_phase_ID,
+		string $pin_type = 'style',
+		bool $pin_private = false,
+		float $pin_x = 50,
+		float $pin_y = 50,
+		int $pin_element_index = null,
+		string $pin_modification_type = null,
+		int $pin_device_ID = null
+	) {
+		global $db, $log, $cache;
 
 
-    	// Security check !!!
+		// Security check !!!
 		if ($pin_type != "live" && $pin_type != "style" && $pin_type != "comment") return false;
 
 
@@ -171,12 +175,12 @@ class Pin {
 	}
 
 
-    // Relocate a pin
-    public function reLocate(
-    	float $pin_x = 50,
-    	float $pin_y = 50
-    ) {
-	    global $db, $cache;
+	// Relocate a pin
+	public function reLocate(
+		float $pin_x = 50,
+		float $pin_y = 50
+	) {
+		global $db, $cache;
 
 
 
@@ -206,9 +210,9 @@ class Pin {
 	}
 
 
-    // Delete a pin
-    public function remove() {
-	    global $db, $log, $cache;
+	// Delete a pin
+	public function remove() {
+		global $db, $log, $cache;
 
 
 
@@ -260,9 +264,9 @@ class Pin {
 	}
 
 
-    // Complete a pin
-    public function complete() {
-	    global $db, $log, $cache;
+	// Complete a pin
+	public function complete() {
+		global $db, $log, $cache;
 
 
 
@@ -307,9 +311,9 @@ class Pin {
 	}
 
 
-    // inComplete a pin
-    public function inComplete() {
-	    global $db, $log, $cache;
+	// inComplete a pin
+	public function inComplete() {
+		global $db, $log, $cache;
 
 
 
@@ -355,9 +359,9 @@ class Pin {
 	}
 
 
-    // Make device specific
-    public function deviceSpecific($device_ID) {
-	    global $db, $log, $cache;
+	// Make device specific
+	public function deviceSpecific($device_ID) {
+		global $db, $log, $cache;
 
 
 
@@ -398,9 +402,9 @@ class Pin {
 	}
 
 
-    // Make for all devices
-    public function deviceAll() {
-	    global $db, $log, $cache;
+	// Make for all devices
+	public function deviceAll() {
+		global $db, $log, $cache;
 
 
 
@@ -441,12 +445,12 @@ class Pin {
 	}
 
 
-    // Convert a pin
-    public function convert(
-	    string $pin_type,
-	    string $pin_private
-    ) {
-	    global $db, $log, $cache;
+	// Convert a pin
+	public function convert(
+		string $pin_type,
+		string $pin_private
+	) {
+		global $db, $log, $cache;
 
 
 
@@ -480,8 +484,8 @@ class Pin {
 				$pin_data['pin_modification'] = null;
 				$pin_data['pin_modification_type'] = null;
 			}
-	
-	
+
+
 			// If the new type is comment, reset the CSS
 			if ($pin_type == 'comment') {
 				$pin_data['pin_css'] = null;
@@ -521,9 +525,9 @@ class Pin {
 	}
 
 
-    // Modify a pin
-    public function modify($modification) {
-	    global $db, $log, $cache;
+	// Modify a pin
+	public function modify($modification) {
+		global $db, $log, $cache;
 
 
 
@@ -569,9 +573,9 @@ class Pin {
 	}
 
 
-    // Update CSS
-    public function updateCSS($css) {
-	    global $db, $log, $cache;
+	// Update CSS
+	public function updateCSS($css) {
+		global $db, $log, $cache;
 
 
 
@@ -613,9 +617,9 @@ class Pin {
 	}
 
 
-    // Get the comments
-    public function comments() {
-	    global $db;
+	// Get the comments
+	public function comments() {
+		global $db;
 
 
 
@@ -634,12 +638,12 @@ class Pin {
 	}
 
 
-    // Add a new comment
-    public function addComment(
+	// Add a new comment
+	public function addComment(
 		string $message,
 		string $comment_type = "comment"
 	) {
-	    global $db, $log;
+		global $db, $log;
 
 
 
@@ -649,7 +653,7 @@ class Pin {
 
 
 		if (
-			$comment_type != "comment" && 
+			$comment_type != "comment" &&
 			$comment_type != "attachment" &&
 			$comment_type != "action"
 		) return false;
@@ -699,11 +703,11 @@ class Pin {
 	}
 
 
-    // Delete a comment
-    public function deleteComment(
-    	int $comment_ID
+	// Delete a comment
+	public function deleteComment(
+		int $comment_ID
 	) {
-	    global $db, $log;
+		global $db, $log;
 
 
 
@@ -965,20 +969,20 @@ class Pin {
 			<div style='
 
 				position: relative;
-			    display: inline-block;
-			    border-radius: 50%;
-			    letter-spacing: 0;
-			    text-align: center;
+				display: inline-block;
+				border-radius: 50%;
+				letter-spacing: 0;
+				text-align: center;
 
-			    background-color: black;
-			    color: white;
+				background-color: black;
+				color: white;
 
-			    width: 45px;
-			    height: 45px;
-			    line-height: 45px;
-			    font-size: 14px;
+				width: 45px;
+				height: 45px;
+				line-height: 45px;
+				font-size: 14px;
 
-			    box-shadow: $pinShadow;
+				box-shadow: $pinShadow;
 
 			'>$pin_number</div>
 
@@ -997,38 +1001,38 @@ class Pin {
 			<div class='pin' style='
 
 				position: relative;
-			    display: inline-block;
-			    border-radius: 50%;
-			    letter-spacing: 0;
-			    text-align: center;
+				display: inline-block;
+				border-radius: 50%;
+				letter-spacing: 0;
+				text-align: center;
 
-			    background-color: white;
-			    color: black;
-			    border: 1px solid black;
+				background-color: white;
+				color: black;
+				border: 1px solid black;
 
-			    width: 45px;
-			    height: 45px;
-			    line-height: 45px;
-			    font-size: 14px;
+				width: 45px;
+				height: 45px;
+				line-height: 45px;
+				font-size: 14px;
 
-			    box-shadow: $pinShadow;
+				box-shadow: $pinShadow;
 
 			'><div style='
 
-				    font-weight: 900;
-				    font-size: 17px;
-				    display: flex;
-				    justify-content: center;
-				    align-items: center;
+					font-weight: 900;
+					font-size: 17px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 					position: absolute;
 					z-index: 2;
-				    width: inherit;
-				    height: inherit;
-				    text-align: center;
-				    background-color: white;
-				    border-radius: 50%;
-				    box-sizing: border-box;
-				    transition: 500ms;
+					width: inherit;
+					height: inherit;
+					text-align: center;
+					background-color: white;
+					border-radius: 50%;
+					box-sizing: border-box;
+					transition: 500ms;
 
 				'><img src='".asset_url('icons/icon-check.svg')."' alt='Completed' style='max-width: 18px; height: auto;' /></div>$pin_number</div>
 
@@ -1092,24 +1096,24 @@ class Pin {
 				$avatar = "
 					<div style='
 
-					    display: inline-block;
+						display: inline-block;
 						border: 1px solid black;
 						border-radius: 50%;
 
-					    background-color: white;
-					    color: black;
+						background-color: white;
+						color: black;
 
-					    width: 30px;
-					    height: 30px;
-					    line-height: 30px;
-					    font-size: 12px;
-					    letter-spacing: 0;
-					    text-align: center;
+						width: 30px;
+						height: 30px;
+						line-height: 30px;
+						font-size: 12px;
+						letter-spacing: 0;
+						text-align: center;
 
-					    background-repeat: no-repeat;
-					    background-size: cover;
-					    background-position: 50% 50%;
-					    background-image: ".($has_photo ? "url(".$comment['user_picture'].")" : "none").";
+						background-repeat: no-repeat;
+						background-size: cover;
+						background-position: 50% 50%;
+						background-image: ".($has_photo ? "url(".$comment['user_picture'].")" : "none").";
 
 					'>".($has_photo ? "" : mb_substr($comment['user_first_name'], 0, 1).mb_substr($comment['user_last_name'], 0, 1))."</div>
 				";

@@ -204,7 +204,7 @@
 					$object_count = 0;
 					if ( isset($blocks) && count($blocks) > 0 ) {
 						foreach ($blocks as $block) {
-							
+
 							$livePinCount = $stylePinCount = $privatePinCount = $completePinCount = 0;
 							$blockPinStatus = "no-tasks";
 
@@ -245,7 +245,7 @@
 
 											// // First device Image, for the projects later than 6 March 2020
 											// if ( $firstDeviceOfProject['device_created'] > "2020-03-05 23:07:50" ) $block_image_path = "phases/phase-".$firstDeviceOfProject['phase_ID']."/screenshots/device-".$firstDeviceOfProject['device_ID'].".jpg";
-											
+
 
 											// print_r($block_image_path);
 											// print_r($firstDeviceOfProject);
@@ -283,7 +283,7 @@
 
 									// Extract the selected screen
 									$blockDevices = array_filter($blockDevices, function ($device) use ($screenFilter) {
-									    return ($device['screen_cat_ID'] == $screenFilter);
+										return ($device['screen_cat_ID'] == $screenFilter);
 									});
 
 
@@ -294,7 +294,7 @@
 
 								$firstDevice = reset($blockDevices);
 
-		
+
 								// First device Image !!! OLD
 								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/phase-".$firstDevice['phase_ID']."/screenshots/device-".$firstDevice['device_ID'].".jpg";
 
@@ -408,14 +408,14 @@
 					?>
 
 						<li
-							class="col block item" 
-							data-type="<?=$dataType?>" 
-							data-id="<?=$block[$dataType.'_ID']?>" 
-							data-order="<?=$block['order_number']?>" 
-							data-cat-id="<?=intval($block['cat_ID'])?>" 
-							data-page-type="<?=$dataType == "page" ? $blockPageType : ""?>" 
-							data-project-id="<?=$dataType == "page" ? $project_ID : ""?>" 
-							data-phase-id="<?=$dataType == "page" ? $blockPhaseID : ""?>" 
+							class="col block item"
+							data-type="<?=$dataType?>"
+							data-id="<?=$block[$dataType.'_ID']?>"
+							data-order="<?=$block['order_number']?>"
+							data-cat-id="<?=intval($block['cat_ID'])?>"
+							data-page-type="<?=$dataType == "page" ? $blockPageType : ""?>"
+							data-project-id="<?=$dataType == "page" ? $project_ID : ""?>"
+							data-phase-id="<?=$dataType == "page" ? $blockPhaseID : ""?>"
 							data-pin-status="<?=$blockPinStatus?>">
 
 
@@ -424,19 +424,14 @@
 								<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
 									<div class="col xl-4-12 xl-left xl-top people" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>">
 
-										<?php
-										$block_user_ID = $block['user_ID'];
-										$block_user = getUserInfo($block_user_ID);
-										?>
-
 										<!-- Owner -->
-										<picture class="profile-picture" <?=$block_user['printPicture']?>
-											data-tooltip="<?=$block_user['fullName']?>"
+										<picture class="profile-picture" style="background-image: url(<?=getUserPicUrl($block['user_picture'], $block['user_email'])?>);"
+											data-tooltip="<?=$block['user_first_name']." ".$block['user_last_name']?>"
 											data-type="user"
-											data-id="<?=$block_user_ID?>"
+											data-id="<?=$block['user_ID']?>"
 											data-unremoveable="unremoveable"
 										>
-											<span><?=$block_user['nameAbbr']?></span>
+											<span><?=getUserNameAbbr($block['user_first_name'], $block['user_last_name'])?></span>
 										</picture>
 
 
@@ -662,7 +657,7 @@
 
 	<li class="item deletable <?=$blockPhase['phase_ID'] == $otherPhase['phase_ID'] ? "selected" : ""?>" data-type="phase" data-id="<?=$otherPhase['phase_ID']?>">
 		<a href="<?=site_url('phase/'.$blockPhase['phase_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)
-		
+
 		<span class="pin-count normal remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count normal done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
 
 		<?php if ( count($devices_of_phase) > 1 ) { ?>
@@ -673,25 +668,25 @@
 
 				// Get pins count
 				$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPhase) {
-	
+
 					return $pinFound['device_ID'] == $deviceFromPhase['device_ID'] && $pinFound['pin_complete'] == "0";
-	
+
 				}));
 				$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPhase) {
-	
+
 					return $pinFound['device_ID'] == $deviceFromPhase['device_ID'] && $pinFound['pin_complete'] == "1";
-	
+
 				}));
-	
-	
+
+
 				// Get page status
 				$pinStatus = "no-tasks";
 				if ($inCompletePinCount)
 					$pinStatus = "has-tasks";
-	
+
 				if ($completePinCount && !$inCompletePinCount)
 					$pinStatus = "done";
-	
+
 				$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
 
 
@@ -721,7 +716,7 @@
 
 	<li>
 		<?php if ($phasesPercentage >= 100) { ?>
-		<a href="<?=site_url("upgrade")?>" class="add-phase"><i class="fa fa-exclamation-circle"></i> <b>Increase Page/Phase Limit Now</b></a>	
+		<a href="<?=site_url("upgrade")?>" class="add-phase"><i class="fa fa-exclamation-circle"></i> <b>Increase Page/Phase Limit Now</b></a>
 		<?php } else { ?>
 		<a href="<?=site_url("projects?new_phase=".$block['page_ID']."&page_width=1440&page_height=774")?>" class="add-phase"><i class="fa fa-plus"></i> <b>Add New Phase</b></a>
 		<?php } ?>

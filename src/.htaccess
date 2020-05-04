@@ -1,0 +1,30 @@
+RewriteEngine On
+RewriteRule ^([0-9a-zA-Z-_/]+)$ index.php?url=$1 [QSA]
+
+
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+</Files>
+
+<Files index.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+
+# badrequest
+ErrorDocument 400 /errors/400
+
+# authreqd
+ErrorDocument 401 /errors/401
+
+# forbid
+ErrorDocument 403 /errors/403
+
+# notfound
+ErrorDocument 404 /errors/404
+
+# server
+ErrorDocument 500 /errors/500

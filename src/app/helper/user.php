@@ -9,10 +9,14 @@ function currentUserID() {
 }
 
 function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = false) {
-    global $db, $cache;
+	global $db, $cache, $User, $UserInfo;
 
 
 	$user_ID = $user_ID != null ? $user_ID : currentUserID();
+
+
+	// If current user info requested
+	if ( $user_ID == currentUserID() && !empty($UserInfo) ) return $UserInfo;
 
 
 	// Check the cache first
@@ -29,7 +33,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 		$db->join("user_levels t", "t.user_level_ID = u.trial_started_for", "LEFT");
 
 
-	    $db->where("u.user_ID", $user_ID);
+		$db->where("u.user_ID", $user_ID);
 		$userInfo = $db->get(
 			"users u",
 			null,
@@ -95,6 +99,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 }
 
 function getUserInfo($user_ID = false) {
+	global $User;
 
 
 	// Get the User ID
@@ -143,30 +148,16 @@ function getUserInfo($user_ID = false) {
 	if ( !$userInfo ) return false;
 
 
-	// Avatar
-	if ( $userInfo['user_picture'] != "" ) {
-		
-		// S3 or Local
-		$userPicUrl = strpos($userInfo['user_picture'], '://') !== false ? $userInfo['user_picture'] : cache_url("users/user-$user_ID/".$userInfo['user_picture']);
-
-	} else {
-		
-		// Gravatar
-		$userPicUrl = get_gravatar($userInfo['user_email'], 250);
-
-	}
-
-
 	// The extended user data
 	$extendedUserInfo = array(
 		'userName' => $userInfo['user_name'],
 		'firstName' => $userInfo['user_first_name'],
 		'lastName' => $userInfo['user_last_name'],
 		'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
-		'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
+		'nameAbbr' => getUserNameAbbr($userInfo['user_first_name'], $userInfo['user_last_name']),
 		'email' => $userInfo['user_email'],
 		'userPic' => $userInfo['user_picture'],
-		'userPicUrl' => $userPicUrl,
+		'userPicUrl' => getUserPicUrl($userInfo['user_picture'], $userInfo['user_email']),
 		'emailNotifications' => $userInfo['user_email_notifications'],
 		'userLevelName' => $userInfo['user_level_name'],
 		'userLevelID' => $userInfo['user_level_ID'],
@@ -184,7 +175,7 @@ function getUserInfo($user_ID = false) {
 	$extendedUserInfo['trialStartedFor'] = $userInfo['trial_started_for'];
 	$extendedUserInfo['trialExpireDate'] = $userInfo['trial_expire_date'];
 
-	$extendedUserInfo['trialExpired'] = $userInfo['trial_expire_date'] && currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0;
+	$extendedUserInfo['trialExpired'] = isTrialExpired($userInfo['trial_expire_date']);
 	$extendedUserInfo['trialExpiredNotified'] = $userInfo['trial_expired_notified'];
 	$extendedUserInfo['trialAvailable'] = !$extendedUserInfo['trialExpired'] ? 1 : 0;
 
@@ -205,6 +196,35 @@ function getUserInfo($user_ID = false) {
 
 
 	return $extendedUserInfo;
+
+}
+
+function getUserPicUrl($userPic, $userEmail = "") {
+
+	$userPicUrl = "";
+
+	// Gravatar
+	if ( filter_var($userEmail, FILTER_VALIDATE_EMAIL) )
+		$userPicUrl = get_gravatar($userEmail, 250);
+
+	// Avatar
+	if ( !empty($userPic) )
+		$userPicUrl = $userPic;
+
+
+	return $userPicUrl;
+
+}
+
+function getUserNameAbbr($firstName, $lastName) {
+
+	return mb_substr($firstName, 0, 1).mb_substr($lastName, 0, 1);
+
+}
+
+function isTrialExpired($trial_expire_date) {
+
+	return $trial_expire_date && currentTimeStamp() > $trial_expire_date ? 1 : 0;
 
 }
 
@@ -241,14 +261,14 @@ function checkAvailableUserName($user_name) {
  * @source https://gravatar.com/site/implement/images/php/
  */
 function get_gravatar( $email, $s = 80, $d = 'blank', $r = 'g', $img = false, $atts = array() ) {
-    $url = 'https://www.gravatar.com/avatar/';
-    $url .= md5( strtolower( trim( $email ) ) );
-    $url .= "?s=$s&d=$d&r=$r";
-    if ( $img ) {
-        $url = '<img src="' . $url . '"';
-        foreach ( $atts as $key => $val )
-            $url .= ' ' . $key . '="' . $val . '"';
-        $url .= ' />';
-    }
-    return $url;
+	$url = 'https://www.gravatar.com/avatar/';
+	$url .= md5( strtolower( trim( $email ) ) );
+	$url .= "?s=$s&d=$d&r=$r";
+	if ( $img ) {
+		$url = '<img src="' . $url . '"';
+		foreach ( $atts as $key => $val )
+			$url .= ' ' . $key . '="' . $val . '"';
+		$url .= ' />';
+	}
+	return $url;
 }

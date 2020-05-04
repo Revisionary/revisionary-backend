@@ -3023,9 +3023,9 @@ function get_gravatar(email, s = 80, d = 'blank', r = 'g') {
 
 	if (typeof email === "undefined") return null;
 
-    $url = 'https://www.gravatar.com/avatar/';
-    $url += MD5( email.trim().toLowerCase() );
-    $url += "?s=" + s + "&d=" + d + "&r=" + r + "";
+    var url = 'https://www.gravatar.com/avatar/';
+    url += MD5( email.trim().toLowerCase() );
+    url += "?s=" + s + "&d=" + d + "&r=" + r + "";
 
-    return $url;
+    return url;
 }

@@ -13,20 +13,20 @@ class User {
 	// SETTERS:
 	public function __construct() {
 
-    }
+	}
 
 
 
 	// ID Setter
-    public static function ID($user_ID = null, bool $nocache = false) {
-	    global $db, $cache;
+	public static function ID($user_ID = null, bool $nocache = false) {
+		global $db, $cache;
 
 
 		// Use current user ID if not specified
 		$user_ID = $user_ID == null && userLoggedIn() ? currentUserID() : $user_ID;
 
 
-	    // Set the user ID
+		// Set the user ID
 		if ( is_int($user_ID) ) {
 
 			self::$userInfo = getUserInfoDB($user_ID, $nocache);
@@ -38,16 +38,17 @@ class User {
 		}
 
 
-	    // For the email users
+		// For the email users
 		if ( filter_var($user_ID, FILTER_VALIDATE_EMAIL) ) {
 
 			self::$user_ID = $user_ID;
+			self::$userInfo = false;
 			return new static;
 
 		}
 
 
-	    // For the new user
+		// For the new user
 		if ($user_ID == "new" || $user_ID === 0) {
 
 			self::$user_ID = "new";
@@ -58,16 +59,16 @@ class User {
 
 		return false;
 
-    }
+	}
 
 
 
 
 	// GETTERS:
 
-    // Get the user info
-    public function getInfo($column = null) {
-	    global $db;
+	// Get the user info
+	public function getInfo($column = null) {
+		global $db;
 
 
 		// If email is given
@@ -75,12 +76,12 @@ class User {
 
 
 		return $column == null ? self::$userInfo : self::$userInfo[$column];
-    }
+	}
 
 
 
-    // Get the categories of this us
-    public function getProjectCategories(string $catFilter = null, string $order = null, bool $nocache = false) {
+	// Get the categories of this us
+	public function getProjectCategories(string $catFilter = null, string $order = null, bool $nocache = false) {
 		global $db, $cache;
 
 
@@ -150,8 +151,8 @@ class User {
 		}
 
 
-	    return $categories;
-    }
+		return $categories;
+	}
 
 
 
@@ -175,6 +176,10 @@ class User {
 			$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
 			$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
 			$db->joinWhere("shares s", "s.share_type", "project");
+
+
+			// Bring the user info
+			$db->join("users u", "p.user_ID = u.user_ID", "LEFT");
 
 
 			// Bring the category connection
@@ -238,6 +243,12 @@ class User {
 					cat.cat_ID,
 					cat.cat_name,
 					cat.cat_order_number,
+					u.user_ID,
+					u.user_first_name,
+					u.user_last_name,
+					u.user_email,
+					u.user_picture,
+					u.user_level_ID,
 					s.share_ID,
 					s.share_to as share_to,
 					s.sharer_user_ID as sharer_user_ID
@@ -306,8 +317,8 @@ class User {
 
 
 
-    // Get the categories of page
-    public function getPageCategories(int $project_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
+	// Get the categories of page
+	public function getPageCategories(int $project_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
 		global $db, $cache;
 
 
@@ -384,8 +395,8 @@ class User {
 		}
 
 
-	    return $categories;
-    }
+		return $categories;
+	}
 
 
 
@@ -406,6 +417,10 @@ class User {
 
 			// Bring the project info
 			$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
+
+
+			// Bring the user info
+			$db->join("users u", "p.user_ID = u.user_ID", "LEFT");
 
 
 			// Bring page share info
@@ -465,6 +480,12 @@ class User {
 					pr.project_archived,
 					pr.project_deleted,
 					pr.project_image_device_ID,
+					u.user_ID,
+					u.user_first_name,
+					u.user_last_name,
+					u.user_email,
+					u.user_picture,
+					u.user_level_ID,
 					s.share_ID,
 					s.share_to as share_to,
 					s.sharer_user_ID as sharer_user_ID
@@ -489,7 +510,7 @@ class User {
 			});
 
 		}
-		
+
 		if ($page_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted" && $catFilter != "shared") {
 
 			$pages = array_filter($pages, function($pageFound) use ($page_cat_ID) {
@@ -845,8 +866,8 @@ class User {
 
 
 
-    // Get notifications
-    public function getNotifications($offset = 0, $limit = 10) {
+	// Get notifications
+	public function getNotifications($offset = 0, $limit = 10) {
 		global $db;
 
 
@@ -856,16 +877,16 @@ class User {
 		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit));
 
 
-	    return array(
-		    'notifications' => $notifications,
-		    'totalCount' => $db->totalCount
-	    );
-    }
+		return array(
+			'notifications' => $notifications,
+			'totalCount' => $db->totalCount
+		);
+	}
 
 
 
-    // Get new notifications
-    public function getNewNotifications() {
+	// Get new notifications
+	public function getNewNotifications() {
 		global $db;
 
 
@@ -876,17 +897,17 @@ class User {
 		$notifications = $db->withTotalCount()->get("notifications n");
 
 
-	    return array(
-		    'notifications' => $notifications,
-		    'totalCount' => $db->totalCount
-	    );
+		return array(
+			'notifications' => $notifications,
+			'totalCount' => $db->totalCount
+		);
 	}
 
 
 
-    // Get the notifications HTML
-    public function getNotificationsHTML(int $offset = 0) {
-	    global $db, $log;
+	// Get the notifications HTML
+	public function getNotificationsHTML(int $offset = 0) {
+		global $db, $log;
 
 
 		$notificationHTML = "";
@@ -927,7 +948,7 @@ class User {
 			if (!$senderInfo) {
 
 				$notificationHTML .= '<li data-offset="'.$offset.'" class="'.($notificationNew ? "new" : "").' error" data-error="user-'.$sender_ID.'-not-found" data-type="notification" data-id="'.$notification_ID.'">User not exist</li>';
-				
+
 				$errorCount++;
 				continue;
 			}
@@ -1203,9 +1224,9 @@ class User {
 
 					// Skip if the page not found
 					if (!$project_data) {
-	
+
 						$notificationHTML .= '<li data-offset="'.$offset.'" data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
-	
+
 						continue;
 					}
 
@@ -1234,9 +1255,9 @@ class User {
 
 					// Skip if the page not found
 					if (!$page_data) {
-	
+
 						$notificationHTML .= '<li data-offset="'.$offset.'" data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Page not exist</li>';
-	
+
 						$errorCount++;
 						continue;
 					}
@@ -1247,9 +1268,9 @@ class User {
 
 					// Skip if the project not found
 					if (!$project_data) {
-	
+
 						$notificationRow = '<li data-offset="'.$offset.'" data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
-	
+
 						$errorCount++;
 						continue;
 					}
@@ -1286,7 +1307,7 @@ class User {
 				else {
 
 					$notificationRow .= "Notification";
-	
+
 				}
 
 
@@ -1305,11 +1326,11 @@ class User {
 			// Add to the real list
 			$notificationHTML .= $notificationRow;
 
-		
+
 			// Count the shown notifications
 			$realNotificationsCount++;
-		
-		
+
+
 		}
 
 
@@ -1330,12 +1351,12 @@ class User {
 
 		return $notificationHTML;
 
-    }
+	}
 
 
-    // Get count
-    public function getNotificationsCount() {
-	    global $db;
+	// Get count
+	public function getNotificationsCount() {
+		global $db;
 
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
 		$db->where('con.user_ID', self::$user_ID);
@@ -1345,7 +1366,7 @@ class User {
 
 		return $count;
 
-    }
+	}
 
 
 
@@ -1384,9 +1405,9 @@ class User {
 
 
 
-    // Get screen data
-    public function getScreenData() {
-	    global $db;
+	// Get screen data
+	public function getScreenData() {
+		global $db;
 
 
 		$screens = $this->getScreens();
@@ -1412,30 +1433,30 @@ class User {
 
 
 		return $screen_data;
-    }
+	}
 
 
 
-    // Can access?
-    public function canAccess(
-	    int $object_ID,
-	    string $object_type
-    ) {
+	// Can access?
+	public function canAccess(
+		int $object_ID,
+		string $object_type
+	) {
 
 
-	    // Check the object types
-	    if (
-		    $object_type != "project"
-		    && $object_type != "page"
-		    && $object_type != "phase"
-		    && $object_type != "device"
-		    && $object_type != "pin"
-	    ) return false;
+		// Check the object types
+		if (
+			$object_type != "project"
+			&& $object_type != "page"
+			&& $object_type != "phase"
+			&& $object_type != "device"
+			&& $object_type != "pin"
+		) return false;
 
 
 
-	    // Capitalize for the class names
-	    $object_type = ucfirst($object_type);
+		// Capitalize for the class names
+		$object_type = ucfirst($object_type);
 
 
 
@@ -1456,24 +1477,24 @@ class User {
 
 
 
-	    // Check whether or not user can access
-	    return in_array(self::$user_ID, $users) || getUserInfo()['userLevelID'] == 1;
+		// Check whether or not user can access
+		return in_array(self::$user_ID, $users) || getUserInfo()['userLevelID'] == 1;
 
-    }
-
-
+	}
 
 
-    // ACTIONS:
 
-    // Add new user
-    public function addNew(
-	    string $user_email,
-	    string $user_full_name,
-	    string $user_password,
-	    int $trial_level_ID = null
-    ) {
-	    global $db, $log;
+
+	// ACTIONS:
+
+	// Add new user
+	public function addNew(
+		string $user_email,
+		string $user_full_name,
+		string $user_password,
+		int $trial_level_ID = null
+	) {
+		global $db, $log;
 
 
 		// Parse the full name
@@ -1558,16 +1579,16 @@ class User {
 
 		// Return the user ID
 		return $user_ID;
-    }
+	}
 
 
 
-    // Edit a user
-    public function edit(
-	    string $column,
-	    $new_value
-    ) {
-	    global $db, $log, $cache;
+	// Edit a user
+	public function edit(
+		string $column,
+		$new_value
+	) {
+		global $db, $log, $cache;
 
 
 
@@ -1589,14 +1610,14 @@ class User {
 
 
 		return $user_updated;
-    }
+	}
 
 
-    // Reorder
-    public function reorder(
-	    array $orderData
-    ) {
-	    global $db, $cache;
+	// Reorder
+	public function reorder(
+		array $orderData
+	) {
+		global $db, $cache;
 
 
 
@@ -1739,18 +1760,18 @@ class User {
 
 		return $status == "ordering-successful" || $status == "categorizing-successful" || $status == "cat-ordering-successful";
 
-    }
+	}
 
 
-    // Unshare
-    public function unshare(
-	    string $share_type,
-	    int $shared_object_ID
-    ) {
+	// Unshare
+	public function unshare(
+		string $share_type,
+		int $shared_object_ID
+	) {
 		global $db, $log, $cache;
 
 
-	    // Check the ownership
+		// Check the ownership
 		$sharedUserID = self::$user_ID;
 		$objectData = ucfirst($share_type)::ID($shared_object_ID, currentUserID());
 		if (!$objectData) return false;
@@ -1764,8 +1785,8 @@ class User {
 		//$log->debug("UNSHARE: \$share_type: $share_type->$objectName | \$shared_object_ID: $shared_object_ID | \$object_user_ID: $object_user_ID | \$User ID: ".self::$user_ID);
 
 
-	    $iamowner = $object_user_ID == currentUserID();
-	    $iamshared = self::$user_ID == currentUserID();
+		$iamowner = $object_user_ID == currentUserID();
+		$iamshared = self::$user_ID == currentUserID();
 
 
 		// Remove share from DB
@@ -1821,15 +1842,15 @@ class User {
 
 		return $unshared;
 
-    }
+	}
 
 
-    // Change Share Access
-    public function changeshareaccess(
-	    string $share_type,
-	    $shared_object_ID,
-	    $new_shared_object_ID = null
-    ) {
+	// Change Share Access
+	public function changeshareaccess(
+		string $share_type,
+		$shared_object_ID,
+		$new_shared_object_ID = null
+	) {
 		global $db, $log, $cache;
 
 
@@ -1837,32 +1858,32 @@ class User {
 		$new_shared_object_ID = is_numeric($new_shared_object_ID) ? intval($new_shared_object_ID) : $new_shared_object_ID;
 
 
-	    // Check the ownership
+		// Check the ownership
 		$sharedUserID = self::$user_ID;
 		$objectData = ucfirst($share_type)::ID($shared_object_ID, currentUserID());
 		if (!$objectData) return false;
 		self::$user_ID = $sharedUserID;
 
-	    $objectInfo = $objectData->getInfo();
-	    $object_user_ID = $objectInfo['user_ID'];
+		$objectInfo = $objectData->getInfo();
+		$object_user_ID = $objectInfo['user_ID'];
 		$iamowner = $object_user_ID == currentUserID();
 
 
 
 		// Page to project
-	    if ($share_type == "page") {
+		if ($share_type == "page") {
 
-		    // Find the project info
+			// Find the project info
 			$new_shared_object_ID = $objectInfo['project_ID'];
 			$new_share_type = "project";
 
-	    }
+		}
 
 
 		// Project to page
-	    if ($share_type == "project") {
+		if ($share_type == "project") {
 
-		    // Find the project info
+			// Find the project info
 			$new_share_type = "page";
 
 		}
@@ -1875,7 +1896,7 @@ class User {
 		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
 
 
-	    $changed = $db->update('shares', array(
+		$changed = $db->update('shares', array(
 			'share_type' => $new_share_type,
 			'shared_object_ID' => $new_shared_object_ID
 		));
@@ -1892,14 +1913,14 @@ class User {
 
 		return $changed;
 
-    }
+	}
 
 
-    // Make owner
-    public function makeownerof(
-	    string $data_type,
-	    int $object_ID
-    ) {
+	// Make owner
+	public function makeownerof(
+		string $data_type,
+		int $object_ID
+	) {
 		global $db, $log, $cache;
 
 
@@ -1936,7 +1957,7 @@ class User {
 
 
 		return $made_owner;
-    }
+	}
 
 
 }
