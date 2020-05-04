@@ -50,6 +50,10 @@ RUN apt-get -y update \
 
 # Add the files
 ADD ./src /backend
-
-# Add composer files
 COPY --from=vendor /app/vendor /backend/vendor
+WORKDIR /backend
+
+# Update the permissions
+RUN chown -R www-data:www-data /backend/ \
+    && find /backend/ -type f -exec chmod 644 {} \; \
+    && find /backend/ -type d -exec chmod 755 {} \;
