@@ -52,4 +52,4 @@ RUN apt-get -y update \
 ADD ./src /backend
 
 # Add composer files
-COPY --from=vendor /app/vendor/ /backend
+COPY --from=vendor /app/vendor /backend/vendor
