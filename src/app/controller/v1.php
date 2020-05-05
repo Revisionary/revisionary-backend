@@ -4,7 +4,8 @@
 
 // Headers
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: https://".$config['env']['dashboard_subdomain'].".".$config['env']['dashboard_domain']);
+//header("Access-Control-Allow-Origin: https://".$config['env']['dashboard_subdomain'].".".$config['env']['dashboard_domain']);
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 header("Access-Control-Max-Age: 3600");
@@ -36,8 +37,8 @@ if ($api == "no-api") {
 
 // API Validation
 if (
-	   $api != "project"
-	&& $api != "page"
+	   $api != "projects"
+	&& $api != "pages"
 	&& $api != "phase"
 	&& $api != "device"
 	&& $api != "user"
@@ -54,6 +55,17 @@ if (
 }
 
 
+// // Login check
+// if ( !userLoggedIn() ) {
+
+// 	die(json_encode(array(
+// 		"status" => "error",
+// 		"description" => "Not logged in"
+// 	)));
+
+// }
+
+
 
 // ACTIONS:
 
@@ -65,15 +77,15 @@ if ($method == "GET" && !isset($_url[2]) ) {
 
 
 	// PROJECS
-	if ($api == "project") {
+	if ($api == "projects") {
 
-		$output = User::ID()->getProjects();
+		$output = User::ID(6)->getProjects();
 
 	}
 
 
 	// PAGES
-	if ($api == "project") {
+	if ($api == "pages") {
 
 		$output = User::ID()->getProjects();
 
