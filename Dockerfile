@@ -34,7 +34,7 @@ RUN composer install \
 #
 # Application
 #
-FROM php:fpm
+FROM php:7-fpm
 
 # Rewrite the PHP-FPM configurations
 COPY ./config/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
