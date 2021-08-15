@@ -1,24 +1,6 @@
-version: "3.2"
+version: "3.8"
 
 services:
-    # proxy:
-    #     image: nginx:latest
-    #     container_name: revisionary_proxy
-    #     restart: "always"
-    #     env_file:
-    #         - ./.env
-    #     ports:
-    #         - 80:80
-    #         - 443:443
-    #     volumes:
-    #         - ./proxy/templates:/etc/nginx/templates
-    #         - ./proxy/certificates:/etc/ssl/private
-    #         - ./proxy/logs:/var/log/nginx
-    #         - ./backend/src:/backend
-    #     networks:
-    #         - proxy-network
-    #         - backend-network
-
     backend:
         build:
             context: .
@@ -35,75 +17,59 @@ services:
             - 80:80
             - 443:443
         volumes:
-            # - ./backend/src/app:/backend/app
-            # - ./backend/src/assets:/backend/assets
-            # - ./backend/src/cache:/backend/cache
-            # - ./backend/src/index.php:/backend/index.php
+            - ./src/app:/backend/app
+            # - ./src/assets:/backend/assets
+            # - ./src/cache:/backend/cache
+            # - ./src/index.php:/backend/index.php
             - ./certificates:/etc/nginx/certificates
             - ./logs:/var/log/nginx
         # networks:
         #     - backend-network
 
-    # memcached:
-    #     image: memcached:latest
-    #     container_name: revisionary_memcached
-    #     restart: "always"
-    #     command: ["-m", "512m"]
-    #     # networks:
-    #     #     - backend-network
+    memcached:
+        image: memcached:latest
+        container_name: revisionary_memcached
+        restart: "always"
+        command: ["-m", "512m"]
+        # networks:
+        #     - backend-network
 
-    # database:
-    #     image: mysql:latest
-    #     container_name: revisionary_database
-    #     restart: "unless-stopped"
-    #     command: [
-    #         "--character-set-server=utf8mb4",
-    #         "--collation-server=utf8mb4_unicode_ci",
-    #         "--slow_query_log=ON", # Make this off when in production !!!
-    #         "--long_query_time=2",
-    #         "--slow_query_log_file=/var/lib/mysql/mysql/slow_queries.log",
-    #     ]
-    #     environment:
-    #         MYSQL_DATABASE: ${DB_NAME}
-    #         MYSQL_USER: ${DB_USER}
-    #         MYSQL_PASSWORD: ${DB_PASSWORD}
-    #         MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    #     volumes:
-    #         - ./database/dump:/docker-entrypoint-initdb.d
-    #         - mysql:/var/lib/mysql
-    #     networks:
-    #         - backend-network
+    database:
+        image: mysql:latest
+        container_name: revisionary_database
+        restart: "unless-stopped"
+        command: [
+            "--character-set-server=utf8mb4",
+            "--collation-server=utf8mb4_unicode_ci",
+            "--slow_query_log=ON", # Make this off when in production !!!
+            "--long_query_time=2",
+            "--slow_query_log_file=/var/lib/mysql/mysql/slow_queries.log",
+        ]
+        environment:
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+        volumes:
+            - ./db/dump:/docker-entrypoint-initdb.d
+            # - mysql:/var/lib/mysql
+        # networks:
+        #     - backend-network
 
-    # phpmyadmin:
-    #     image: phpmyadmin/phpmyadmin:latest
-    #     container_name: revisionary_phpmyadmin
-    #     restart: "unless-stopped"
-    #     depends_on:
-    #         - database
-    #     ports:
-    #         - ${LOCAL_IP:-127.0.0.1}:8000:80
-    #     volumes:
-    #         - ./backend/config/phpmyadmin.ini:/usr/local/etc/php/conf.d/uploads.ini
-    #     environment:
-    #         PMA_HOSTS: ${DB_HOST}, ${DB_CLOUD_HOST}
-    #         PMA_PORTS: ${DB_PORT}, ${DB_CLOUD_PORT}
-    #         PMA_VERBOSES: Docker, Cloud
-    #     networks:
-    #         - backend-network
-
-    # memcachedadmin:
-    #     build: ./memcachedadmin
-    #     image: revisionary_memcachedadmin:latest
-    #     container_name: revisionary_memcachedadmin
-    #     restart: "unless-stopped"
-    #     depends_on:
-    #         - memcached
-    #     ports:
-    #         - ${LOCAL_IP:-127.0.0.1}:1200:80
-    #     volumes:
-    #         - ./memcachedadmin/Memcache.docker.php:/var/www/localhost/htdocs/Config/Memcache.php
-    #     networks:
-    #         - backend-network
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: revisionary_phpmyadmin
+        restart: "unless-stopped"
+        depends_on:
+            - database
+        ports:
+            - 8000:80
+        environment:
+            PMA_HOSTS: ${DB_HOST}, ${DB_CLOUD_HOST}
+            PMA_PORTS: ${DB_PORT}, ${DB_CLOUD_PORT}
+            PMA_VERBOSES: Docker, Cloud
+        # networks:
+        #     - backend-network
 
 # networks:
 #     proxy-network: {}
