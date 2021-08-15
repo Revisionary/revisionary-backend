@@ -18,7 +18,7 @@ services:
             - 443:443
         volumes:
             - ./src/app:/backend/app
-            # - ./src/assets:/backend/assets
+            - ./src/assets:/backend/assets
             # - ./src/cache:/backend/cache
             # - ./src/index.php:/backend/index.php
             - ./certificates:/etc/nginx/certificates
