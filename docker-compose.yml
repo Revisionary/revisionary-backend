@@ -26,13 +26,13 @@ services:
         # networks:
         #     - backend-network
 
-    memcached:
-        image: memcached:latest
-        container_name: revisionary_memcached
-        restart: "always"
-        command: ["-m", "512m"]
-        # networks:
-        #     - backend-network
+    # memcached:
+    #     image: memcached:latest
+    #     container_name: revisionary_memcached
+    #     restart: "always"
+    #     command: ["-m", "512m"]
+    #     # networks:
+    #     #     - backend-network
 
     database:
         image: mysql:latest
