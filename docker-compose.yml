@@ -15,24 +15,22 @@ services:
             - ./.env
         ports:
             - 80:80
-            - 443:443
         volumes:
-            - ./src/app:/backend/app
-            - ./src/assets:/backend/assets
+            # - ./src/app:/backend/app
+            # - ./src/assets:/backend/assets
             # - ./src/cache:/backend/cache
             # - ./src/index.php:/backend/index.php
-            - ./certificates:/etc/nginx/certificates
             - ./logs:/var/log/nginx
         # networks:
         #     - backend-network
 
-    # memcached:
-    #     image: memcached:latest
-    #     container_name: revisionary_memcached
-    #     restart: "always"
-    #     command: ["-m", "512m"]
-    #     # networks:
-    #     #     - backend-network
+    memcached:
+        image: memcached:latest
+        container_name: revisionary_memcached
+        restart: "always"
+        command: ["-m", "512m"]
+        # networks:
+        #     - backend-network
 
     database:
         image: mysql:latest
@@ -56,20 +54,20 @@ services:
         # networks:
         #     - backend-network
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin:latest
-        container_name: revisionary_phpmyadmin
-        restart: "unless-stopped"
-        depends_on:
-            - database
-        ports:
-            - 8000:80
-        environment:
-            PMA_HOSTS: ${DB_HOST}, ${DB_CLOUD_HOST}
-            PMA_PORTS: ${DB_PORT}, ${DB_CLOUD_PORT}
-            PMA_VERBOSES: Docker, Cloud
-        # networks:
-        #     - backend-network
+    # phpmyadmin:
+    #     image: phpmyadmin/phpmyadmin:latest
+    #     container_name: revisionary_phpmyadmin
+    #     restart: "unless-stopped"
+    #     depends_on:
+    #         - database
+    #     ports:
+    #         - 8000:80
+    #     environment:
+    #         PMA_HOSTS: ${DB_HOST}, ${DB_CLOUD_HOST}
+    #         PMA_PORTS: ${DB_PORT}, ${DB_CLOUD_PORT}
+    #         PMA_VERBOSES: Docker, Cloud
+    #     # networks:
+    #     #     - backend-network
 
 # networks:
 #     proxy-network: {}
