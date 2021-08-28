@@ -70,7 +70,6 @@ services:
     #     #     - backend-network
 
 # networks:
-#     proxy-network: {}
 #     backend-network: {}
 
 # volumes:
