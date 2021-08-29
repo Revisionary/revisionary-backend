@@ -6,7 +6,6 @@ services:
             context: .
             args:
                 API_SUBDOMAIN: ${API_SUBDOMAIN:-dpi}
-                API_INSECURE_SUBDOMAIN: ${API_INSECURE_SUBDOMAIN:-dpi}
                 API_DOMAIN: ${API_DOMAIN:-revisionary.co}
         image: revisionary_backend:latest
         container_name: revisionary_backend
@@ -50,7 +49,7 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
         volumes:
             - ./db/dump:/docker-entrypoint-initdb.d
-            # - mysql:/var/lib/mysql
+            - mysql:/var/lib/mysql
         networks:
             - backend-network
 
@@ -72,5 +71,5 @@ services:
 networks:
     backend-network: {}
 
-# volumes:
-#     mysql: {}
+volumes:
+    mysql: {}
