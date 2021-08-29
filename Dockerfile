@@ -41,6 +41,7 @@ ARG API_DOMAIN=revisionary.co
 # Nginx Template
 ARG NGINX_FILE="/etc/nginx/sites-enabled/default"
 COPY ./config/nginx/revisionary.conf.template ${NGINX_FILE}
+RUN sed -i "s/\${SITES_SUBDOMAIN}/${SITES_SUBDOMAIN}/g" "${NGINX_FILE}"
 RUN sed -i "s/\${API_SUBDOMAIN}/${API_SUBDOMAIN}/g" "${NGINX_FILE}"
 RUN sed -i "s/\${API_INSECURE_SUBDOMAIN}/${API_INSECURE_SUBDOMAIN}/g" "${NGINX_FILE}"
 RUN sed -i "s/\${API_DOMAIN}/${API_DOMAIN}/g" "${NGINX_FILE}"
