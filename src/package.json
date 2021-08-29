@@ -1,0 +1,35 @@
+{
+	"name": "revisionary-app",
+	"version": "1.0.0",
+	"description": "Revisionary App development packages.",
+	"main": "gulpfile.js",
+	"scripts": {
+		"build": "gulp build",
+		"start": "gulp"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Revisionary/revisionary-backend-src.git"
+	},
+	"author": "Bilal TAS",
+	"license": "UNLICENSED",
+	"private": true,
+	"bugs": {
+		"url": "https://github.com/Revisionary/revisionary-backend-src/issues"
+	},
+	"homepage": "https://github.com/Revisionary/revisionary-backend-src#readme",
+	"dependencies": {},
+	"devDependencies": {
+		"gulp": "4.0.2",
+		"gulp-autoprefixer": "8.0.0",
+		"gulp-cli": "2.3.0",
+		"gulp-sass": "4.1.1",
+		"gulp-sass-lint": "1.4.0",
+		"gulp-sourcemaps": "2.0.1"
+	},
+	"browserslist": [
+		"ff > 2",
+		"> 2%",
+		"ie 8"
+	]
+}
