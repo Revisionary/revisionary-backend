@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: revisionary-do-user-2911443-0.db.ondigitalocean.com:25060
--- Generation Time: Jul 19, 2020 at 08:33 PM
--- Server version: 8.0.19
--- PHP Version: 7.4.6
+-- Host: revisionary_database:3306
+-- Generation Time: Aug 29, 2021 at 07:31 PM
+-- Server version: 8.0.26
+-- PHP Version: 7.4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `defaultdb`
+-- Database: `revisionaryapp`
 --
 
 -- --------------------------------------------------------
@@ -299,23 +299,6 @@ CREATE TABLE `screens` (
   `screen_user_ID` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
---
--- Dumping data for table `screens`
---
-
-INSERT INTO `screens` (`screen_ID`, `screen_name`, `screen_width`, `screen_height`, `screen_rotateable`, `screen_color`, `screen_frame`, `screen_cat_ID`, `screen_order`, `screen_user_ID`) VALUES
-(1, 'iMac 27', 2560, 1440, 0, NULL, NULL, 1, 0, 1),
-(2, 'iMac 21', 1920, 1080, 0, NULL, NULL, 1, 1, 1),
-(3, 'Macbook Pro 17', 1920, 1200, 0, NULL, NULL, 2, 2, 1),
-(4, 'Macbook Pro 15', 1440, 900, 0, NULL, NULL, 2, 3, 1),
-(5, 'Macbook Pro 13', 1280, 800, 0, NULL, NULL, 2, 4, 1),
-(6, 'iPad', 768, 1024, 1, NULL, NULL, 3, 0, 1),
-(7, 'iPhone 6/6S/7/8 Plus', 414, 736, 1, NULL, NULL, 4, 0, 1),
-(8, 'iPhone 6/6S/7/8', 375, 667, 1, NULL, NULL, 4, 1, 1),
-(9, 'iPhone 5/5C/5S/SE', 320, 568, 1, NULL, NULL, 4, 2, 1),
-(10, 'iPhone 4/4S', 320, 480, 1, NULL, NULL, 4, 3, 1),
-(11, 'Custom Screen', 1440, 900, 0, NULL, NULL, 5, 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -328,17 +311,6 @@ CREATE TABLE `screen_categories` (
   `screen_cat_icon` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `screen_cat_order` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `screen_categories`
---
-
-INSERT INTO `screen_categories` (`screen_cat_ID`, `screen_cat_name`, `screen_cat_icon`, `screen_cat_order`) VALUES
-(1, 'Desktop', 'fa-desktop', 0),
-(2, 'Laptop', 'fa-laptop', 1),
-(3, 'Tablet', 'fa-tablet', 2),
-(4, 'Mobile', 'fa-mobile', 3),
-(5, 'Custom', 'fa-window-maximize', 4);
 
 -- --------------------------------------------------------
 
@@ -386,29 +358,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_job_title`, `user_department`, `user_company`, `user_picture`, `user_has_public_profile`, `user_email_notifications`, `user_registered`, `user_IP`, `trial_started_for`, `trial_expire_date`, `trial_expired_notified`, `user_level_ID`) VALUES
-(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/w1muiw2xx3.jpg', 1, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 1),
-(2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'Director', '', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jq1h92y2w7.png', 0, 0, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 3),
-(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$zZf6Ag7dG6JMq.riN1DKCefzm4eutcxHB4.saFiTfkVKOWT.XLf5C', 'Sara', 'Atalay', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/o35wjvb55t.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 4),
-(4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
-(5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/cuzajoqbx8.jpg', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 3),
-(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, '2020-01-18 22:48:26', 1, 4),
-(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
-(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/o35wjvb55t.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 4),
-(9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
-(10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$5B902tsYAx8y8OVkDiREmeps44Vy6lOaLE5.trmsYBCQXm33uFtva', 'Dmytro', 'Korol', 'Art Director', 'Design', 'Twelve12', 'dmytro.jpg', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
-(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
-(12, 'salih-onder', 'irtibat@dijitem.com', '$2y$10$jEJa3JTjFQq.e3p2WWC1Y.TG6EoO1x0zHG0rmo3wx8/3rRxdqQYbi', 'Salih', 'ÖNDER', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '176.43.81.234', NULL, NULL, 0, 3),
-(13, 'abraham', 'abraham@twelve12.com', '$2y$10$/qJwC7niOhrgYy7kCu3cSeqy1Rr0nBUnxbi3Cd6XgnlHQCa9WwDv2', 'Abraham', 'Kiziltepe', '', '', '', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/l3dhpxgmgp.jpeg', 0, 1, '2019-09-23 10:38:14', '5.177.182.139', NULL, NULL, 0, 3),
-(14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '98.186.237.146', NULL, NULL, 0, 4),
-(15, 'dilekuzulmez', 'dilekuzulmez@gmail.com', '$2y$10$snwtYOys3NT8kKNpQgyPt.LwXg2Gsv2BafD9ZTFRXX4tVHopFn5eW', 'Dilek', 'TAŞ', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '95.8.108.37', NULL, NULL, 0, 2),
-(16, 'm-f', 'mo@twelve12.com', '$2y$10$QR2Oi9h0yqQ04SGO.71CuOEMWOmHf3yNzhUMZCjVW9MR1CpO/tfCW', 'Mo', 'Fidanoglu', 'Digital Marketing Manager', '', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/02tnfw2npu.jpg', 0, 1, '2019-09-23 10:38:14', '98.186.237.146', NULL, NULL, 0, 4),
-(17, 'salih-onder_1', 'mail@salihonder.com.tr', '$2y$10$n0.5srt7NNNG8tHWGmX6eOofTDRJEDWO4JeomBbxniCNleYDu9Ml6', 'Salih', 'ÖNDER', 'Web Expert', 'WEB', 'salihonder.com.tr', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/gloyogezdv.jpg', 0, 1, '2019-09-23 10:38:14', '176.239.37.151', NULL, NULL, 0, 3),
-(18, 'ozgur', 'ozgurbeys@gmail.com', '$2y$10$xCxkuGAGxd4wTqhzpPcrE..E3WyST7fIDNxKGr.Ek05cVCwUONF32', 'Ozgur', '', NULL, NULL, NULL, NULL, 0, 1, '2019-12-12 17:38:58', '213.194.71.54', NULL, NULL, 0, 2),
-(19, 'bill-stone', 'webdesign@twelve12.com', '$2y$10$ERINk9aLZ.WV.zCD0fpKRuBBYeQjJ93l94Uuwl75Uw/9.x28d0sjG', 'Bill', 'Stone', NULL, NULL, NULL, NULL, 0, 1, '2019-12-24 12:27:25', '212.2.212.108', NULL, NULL, 0, 2),
-(20, 'atakan-oz', 'atakan@twelve12.com', '$2y$10$iBKO2E76ZQpsjq.z/4D/Pughpu5RkJZH4XSCunjcrntQN4ejSzYQm', 'Atakan', 'Oz', 'Full Stack Developer', 'Development', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/17fi86y14p.jpeg', 0, 1, '2020-01-28 11:37:07', '159.89.13.242', 3, '2020-04-08 23:13:31', 1, 2),
-(21, 'rod-w', 'seo@twelve12.com', '$2y$10$WpQo4ThnYu6K6itNItvZEe6EOIHfgBONxGcbTNa2kWdYTDaETRv1i', 'Rod', 'W', 'SEO Manager', 'Search Engine Optimization', 'Twelve12', NULL, 0, 1, '2020-02-25 14:25:25', '78.168.4.199', NULL, NULL, 0, 4),
-(22, 'revisionaryapp-customer', 'serdarkiziltepe@icloud.com', '$2y$10$eVtYQ32gMDlBCX7sm1Wk7u4ZSUgAbAKH3mJIL4kNlH/LBDoSpNONK', 'John', 'Doe', '', '', '', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/byslek9wxj.jpg', 0, 1, '2020-03-06 11:53:49', '95.8.123.0', NULL, NULL, 0, 2),
-(23, 'hasan-ahlatci', 'hasan.ahlatci@gmail.com', '$2y$10$322oyqhEs.7CryJmRwSgNu39KRpuyi3vQLEbMHzOFcaBQH9wp6eBu', 'HASAN', 'AHLATCI', NULL, NULL, NULL, NULL, 0, 1, '2020-03-11 16:03:30', '176.43.194.206', NULL, NULL, 0, 2);
+(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, NULL, 1, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 1),
+(2, 'bill-tas', 'bilalltas@gmail.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, '2020-01-18 22:48:26', 1, 4),
+(3, 'cuneyt-tas', 'cuneyttas@hotmail.com.tr', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'Web Developer', 'Web Department', 'Twelve12', NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 3);
 
 -- --------------------------------------------------------
 

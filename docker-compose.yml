@@ -21,16 +21,16 @@ services:
             # - ./src/cache:/backend/cache
             # - ./src/index.php:/backend/index.php
             - ./logs:/var/log/nginx
-        # networks:
-        #     - backend-network
+        networks:
+            - backend-network
 
     memcached:
         image: memcached:latest
         container_name: revisionary_memcached
         restart: "always"
         command: ["-m", "512m"]
-        # networks:
-        #     - backend-network
+        networks:
+            - backend-network
 
     database:
         image: mysql:latest
@@ -51,8 +51,8 @@ services:
         volumes:
             - ./db/dump:/docker-entrypoint-initdb.d
             # - mysql:/var/lib/mysql
-        # networks:
-        #     - backend-network
+        networks:
+            - backend-network
 
     # phpmyadmin:
     #     image: phpmyadmin/phpmyadmin:latest
@@ -66,11 +66,11 @@ services:
     #         PMA_HOSTS: ${DB_HOST}, ${DB_CLOUD_HOST}
     #         PMA_PORTS: ${DB_PORT}, ${DB_CLOUD_PORT}
     #         PMA_VERBOSES: Docker, Cloud
-    #     # networks:
-    #     #     - backend-network
+    #     networks:
+    #         - backend-network
 
-# networks:
-#     backend-network: {}
+networks:
+    backend-network: {}
 
 # volumes:
 #     mysql: {}
