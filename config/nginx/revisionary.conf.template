@@ -39,36 +39,14 @@ server {
     location /sites {
         alias /backend/cache/projects;
         index index.html;
+
+        # sub_filter 'http://dapi.revisionary.co/cache/projects/' 'https://dapp.revisionary.co/sites/';
+        # sub_filter 'dapi.revisionary.co/cache/projects/' 'dapp.revisionary.co/sites/';
+        # sub_filter 'http://new.revisionaryapp.com/cache/projects/' 'https://napp.revisionary.co/sites/';
+        # sub_filter 'new.revisionaryapp.com/cache/projects/' 'napp.revisionary.co/sites/';
+        # sub_filter_once off;
+        # sub_filter_types *;
     }
 
 
 }
-
-
-
-# server {
-#     listen 80;
-#     server_name ${SITES_SUBDOMAIN}.${API_DOMAIN};
-
-#     error_log  /var/log/nginx/sites_error.log;
-#     access_log /var/log/nginx/sites_access.log;
-
-#     add_header 'Access-Control-Allow-Origin' ${API_SUBDOMAIN}.${API_DOMAIN} always;
-# 	add_header 'Access-Control-Allow-Credentials' 'true' always;
-#     add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
-#     add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
-
-#     location / {
-#         root /backend/cache/projects;
-#         index index.html;
-
-#         # sub_filter 'http://dapi.revisionary.co/cache/projects/' 'https://dapp.revisionary.co/sites/';
-#         # sub_filter 'dapi.revisionary.co/cache/projects/' 'dapp.revisionary.co/sites/';
-#         # sub_filter 'http://new.revisionaryapp.com/cache/projects/' 'https://napp.revisionary.co/sites/';
-#         # sub_filter 'new.revisionaryapp.com/cache/projects/' 'napp.revisionary.co/sites/';
-#         # sub_filter_once off;
-#         # sub_filter_types *;
-#     }
-
-
-# }
