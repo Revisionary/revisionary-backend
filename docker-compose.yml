@@ -15,8 +15,8 @@ services:
         volumes:
             # - ./src/app:/backend/app
             # - ./src/assets:/backend/assets
-            # - ./src/cache:/backend/cache
             # - ./src/index.php:/backend/index.php
+            - cache:/backend/cache
             - ./logs:/var/log/nginx
         networks:
             - backend-network
@@ -71,3 +71,4 @@ networks:
 
 volumes:
     mysql: {}
+    cache: {}
