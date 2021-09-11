@@ -11,9 +11,7 @@ services:
         container_name: revisionary_backend
         restart: "always"
         env_file:
-            - ./.env
-        ports:
-            - 80:80
+            - .env.local
         volumes:
             # - ./src/app:/backend/app
             # - ./src/assets:/backend/assets
